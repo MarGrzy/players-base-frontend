@@ -1,4 +1,4 @@
-# player-base
+# player-base-frontend
 
 ## Project setup
 ```
