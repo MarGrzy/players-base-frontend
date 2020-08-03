@@ -19,30 +19,38 @@
       ></v-switch>
     </v-app-bar>
     <v-content>
-      <v-text-field v-if="displayLoggedUser"
-      single-line
-      solo
-      v-bind:label="displayLoggedUser"
-      >
-      </v-text-field>
-      <v-tabs v-else
-              v-model="tab" centered optional
-      >
-        <v-tab
-            v-for="item in items"
-            :key="item.tab"
+      <div v-if="loggedUsername">
+        <v-toolbar class="elevation-0"
+                   dense>
+          <v-icon>mdi-account</v-icon>
+          <v-toolbar-title class="text-h6 grey--text text--darken-2">Welcome {{ loggedUsername }}</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn
+              color="primary"
+              @click="logout"
+          >Log Out
+          </v-btn>
+        </v-toolbar>
+      </div>
+      <div v-else>
+        <v-tabs v-model="tab" centered optional
         >
-          {{ item.tab }}
-        </v-tab>
-      </v-tabs>
-      <v-tabs-items v-model="tab">
-        <v-tab-item
-            v-for="item in items"
-            :key="item.tab"
-        >
-          <component v-bind:is="item.item"></component>
-        </v-tab-item>
-      </v-tabs-items>
+          <v-tab
+              v-for="item in items"
+              :key="item.tab"
+          >
+            {{ item.tab }}
+          </v-tab>
+        </v-tabs>
+        <v-tabs-items v-model="tab">
+          <v-tab-item
+              v-for="item in items"
+              :key="item.tab"
+          >
+            <component v-bind:is="item.item"></component>
+          </v-tab-item>
+        </v-tabs-items>
+      </div>
     </v-content>
   </v-app>
 </template>
@@ -63,13 +71,9 @@ export default {
     theme() {
       return (this.$vuetify.theme.dark) ? 'dark' : 'light'
     },
-    displayLoggedUser: function () {
-      let loggedName = this.$store.state.data.currentUser.name
-      return "Welcome " + loggedName
-    }
-    // ...mapState({
-    //   currentUser: state => state.data.currentUser
-  // })
+    ...mapState({
+      loggedUsername: state => state.data.loggedUsername
+    })
   },
   data: () => ({
     tab: null,
@@ -78,5 +82,10 @@ export default {
       {tab: 'Sign up', item: 'Registration'}
     ],
   }),
+  methods: {
+    logout() {
+      this.$store.dispatch("logout")
+    }
+  },
 };
 </script>

@@ -40,14 +40,15 @@
               error-count="3"
               required></v-text-field>
         </v-form>
-      <v-alert
-          :value="userExists"
-          type="error"
-          dense
-          text
-          dismissible
-      >This user already exists, try a different set of data.
-      </v-alert>
+        <v-alert
+            :value="userExists"
+            type="error"
+            dense
+            text
+            dismissible
+        >
+          {{ registrationError }}
+        </v-alert>
       </v-card-text>
       <v-card-actions>
         <v-btn
@@ -68,17 +69,21 @@ export default {
     userExists: false,
     username: "",
     password: "",
-    isValid: true
+    isValid: true,
+    registrationError: ""
   }),
   methods: {
-    register() {
-      this.$store.dispatch('register', {
+    async register() {
+      let registerProcess = await this.$store.dispatch('register', {
         username: this.username,
         password: this.password
       })
-          .catch(error => {
-            this.userExists = true;
-          })
+      if (registerProcess.error) {
+        this.userExists = true;
+        this.registrationError = registerProcess.error;
+      } else {
+
+      }
     }
   },
 }

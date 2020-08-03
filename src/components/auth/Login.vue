@@ -66,16 +66,14 @@ export default {
   }),
   methods: {
     async login() {
-      let user = await this.$store.dispatch("login",
+      let loginProcess = await this.$store.dispatch("login",
           {username: this.username, password: this.password})
-      if (user.error) {
-        this.wrongCredentials = true;
-        this.loginError = user.error;
-      } else {
-        this.wrongCredentials = true;
-        this.loginError = ('Thank you for signing in, ')
+      if (loginProcess.error) {
+        this.wrongCredentials = true
+        this.loginError = loginProcess.error
       }
     }
   }
-};
+}
+;
 </script>
