@@ -67,6 +67,9 @@ export default {
     Registration,
     Login
   },
+  mounted() {
+    this.$store.dispatch("loadCurrentUser")
+  },
   computed: {
     theme() {
       return (this.$vuetify.theme.dark) ? 'dark' : 'light'
