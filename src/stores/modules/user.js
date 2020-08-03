@@ -1,5 +1,4 @@
 import api from "@/services/api";
-import axios from "axios"
 
 export default {
     state: {},
@@ -15,11 +14,16 @@ export default {
             try {
                 let response = await api()
                     .request(config);
-                let username = response.data.valueOf().username;
-                let token = response.data.valueOf().token;
-                return commit('AUTHORIZED_USER', {token, username});
-            } catch (error) {
-                return { error: "The username/password combination is incorrect. Try again." }
+                if (response.status === 200) {
+                    let username = response.data.valueOf().username;
+                    let token = response.data.valueOf().token;
+                    commit('AUTHORIZED_USER', {token, username});
+                    return username;
+                } else if (response.status === 400) {
+                    return {error: "The username/password combination is incorrect. Try again."}
+                }
+            } catch {
+                return {error: "There was an error. Please try again."}
             }
         },
         logout({commit}) {
@@ -32,11 +36,21 @@ export default {
                 data: JSON.stringify({username, password}),
             };
             try {
-                await api()
+                let response = await api()
                     .request(config);
+                if (response.status === 201) {
+                    return {success: "You account has been created! You may now log in."}
+                } else if (response.status === 226) {
+                    return {error: "This username is already used. Please try with another one."}
+                }
             } catch {
-                return {error: "This username is already used. Try with another one."}
+                return {error: "There was an error. Please try again."}
             }
+        },
+        async loadCurrentUser({commit}) {
+            let username = window.localStorage.username;
+            let token = window.localStorage.token
+            commit('AUTHORIZED_USER', {token, username});
         }
     }
 };

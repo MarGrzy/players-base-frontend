@@ -49,6 +49,15 @@
         >
           {{ registrationError }}
         </v-alert>
+        <v-alert
+            :value="userCreated"
+            type="success"
+            dense
+            text
+            dismissible
+        >
+          {{ registrationSuccess }}
+        </v-alert>
       </v-card-text>
       <v-card-actions>
         <v-btn
@@ -67,10 +76,12 @@ export default {
   name: "Registration",
   data: () => ({
     userExists: false,
+    userCreated: false,
     username: "",
     password: "",
     isValid: true,
-    registrationError: ""
+    registrationError: "",
+    registrationSuccess: ""
   }),
   methods: {
     async register() {
@@ -81,8 +92,11 @@ export default {
       if (registerProcess.error) {
         this.userExists = true;
         this.registrationError = registerProcess.error;
+        this.userCreated = false;
       } else {
-
+        this.userCreated = true;
+        this.registrationSuccess = registerProcess.success;
+        this.userExists = false;
       }
     }
   },

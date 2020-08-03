@@ -12,8 +12,7 @@ export default {
             state.loggedUsername = ""
 
             window.localStorage.clear()
-        }
-        ,
+        },
         AUTHORIZED_USER(state, {token, username}) {
             state.token = token
             state.loggedUsername = username
