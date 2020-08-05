@@ -6,6 +6,7 @@ import store from './stores/store';
 import VueRouter from "vue-router";
 
 Vue.config.productionTip = false;
+Vue.config.devtools = true;
 
 Vue.use(VueRouter);
 
