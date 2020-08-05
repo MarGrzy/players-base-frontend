@@ -19,11 +19,9 @@ export default {
                     let token = response.data.valueOf().token;
                     commit('AUTHORIZED_USER', {token, username});
                     return username;
-                } else if (response.status === 400) {
-                    return {error: "The username/password combination is incorrect. Try again."}
                 }
             } catch {
-                return {error: "There was an error. Please try again."}
+                return {error: "The username/password combination is incorrect. Try again."}
             }
         },
         logout({commit}) {
