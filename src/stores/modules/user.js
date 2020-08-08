@@ -46,9 +46,11 @@ export default {
             }
         },
         async loadCurrentUser({commit}) {
-            let username = window.localStorage.username;
-            let token = window.localStorage.token
-            commit('AUTHORIZED_USER', {token, username});
+            if (!window.localStorage.username === undefined) {
+                let username = window.localStorage.username;
+                let token = window.localStorage.token
+                commit('AUTHORIZED_USER', {token, username});
+            }
         }
     }
 };
