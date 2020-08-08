@@ -2,15 +2,13 @@ import Vue from 'vue';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import store from './stores/store';
-
-import VueRouter from "vue-router";
+import router from "@/services/router";
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
 
-Vue.use(VueRouter);
-
 new Vue({
+  router,
   store,
   vuetify,
   render: h => h(App)

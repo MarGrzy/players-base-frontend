@@ -2,6 +2,7 @@
   <v-app id="main" :style="{background: $vuetify.theme.themes[theme].background}">
     <Header/>
     <PlayersTable/>
+    <router-view></router-view>
   </v-app>
 </template>
 
