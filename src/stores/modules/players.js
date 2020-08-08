@@ -5,8 +5,7 @@ export default {
     getters: {},
     mutations: {},
     actions: {
-        async getPlayers({commit}, {playerName, position, team, perPage, page, sortBy, direction})
-        {
+        async getPlayers({commit}, {playerName, position, team, perPage, page, sortBy, direction}) {
             const config = {
                 url: 'player',
                 method: 'post',
@@ -18,6 +17,19 @@ export default {
                     .request(config);
                 let players = response.data.content
                 commit('LOAD_PLAYERS', players)
+            } catch (error) {
+                return {error}
+            }
+        },
+        async addPlayer({commit}, {id, playerName, position, team}) {
+            const config = {
+                url: 'player/new',
+                method: 'post',
+                data: JSON.stringify({id, playerName, position, team}),
+            }
+            try {
+                await api()
+                    .request(config);
             } catch (error) {
                 return {error}
             }
