@@ -33,6 +33,18 @@ export default {
             } catch (error) {
                 return {error}
             }
+        },
+        async deletePlayer({commit}, {id}) {
+            const config = {
+                url: 'player/' + id,
+                method: 'delete',
+            }
+            try {
+                await api()
+                    .request(config);
+            } catch (error) {
+                return {error}
+            }
         }
     }
 };

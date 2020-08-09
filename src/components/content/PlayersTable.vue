@@ -21,7 +21,7 @@
                 <v-btn icon class="mx-0">
                   <v-icon color="teal">mdi-account-edit-outline</v-icon>
                 </v-btn>
-                <v-btn icon class="mx-0">
+                <v-btn icon class="mx-0" @click="deleteChosen(player.id)">
                   <v-icon color="red darken-3">mdi-trash-can-outline</v-icon>
                 </v-btn>
               </td>
@@ -98,6 +98,12 @@ export default {
       players: state => state.data.players,
       findBy: state => state.data.findBy
     }),
+  },
+  methods: {
+    async deleteChosen(id) {
+      await this.$store.dispatch('deletePlayer',
+          {id: id})
+    }
   },
 }
 </script>
