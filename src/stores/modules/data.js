@@ -29,7 +29,7 @@ export default {
             playerName: "",
             position: "",
             team: {
-                id: 1,
+                id: 0,
                 teamName: ""
             }
         },

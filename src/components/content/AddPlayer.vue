@@ -60,6 +60,7 @@ export default {
           position: this.newPlayer.position,
           team: this.newPlayer.team
         })
+      window.history.length > 1 ? this.$router.go(-1) : await this.$router.push('/')
     },
     close() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
