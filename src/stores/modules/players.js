@@ -45,6 +45,19 @@ export default {
             } catch (error) {
                 return {error}
             }
+        },
+        async updatePlayer({commit}, {id, playerName, position, team}) {
+            const config = {
+                url: 'player/' + id,
+                method: 'put',
+                data: JSON.stringify({playerName, position, team}),
+            }
+            try {
+                await api()
+                    .request(config);
+            } catch (error) {
+                return {error}
+            }
         }
     }
 };
