@@ -1,6 +1,5 @@
 <template>
   <main>
-  <div>
     <v-container fluid>
       <v-card rounded>
         <v-dialog
@@ -27,7 +26,7 @@
               <th class="text-center">Actions</th>
             </tr>
             </thead>
-            <tbody :key="componentKey">
+            <tbody>
             <tr v-for="player in players" :key="player.id">
               <td>{{ player.playerName }}</td>
               <td>{{ player.position }}</td>
@@ -63,32 +62,31 @@
                 Add Player
               </v-btn>
             </v-col>
-                <v-row no-gutters>
-                  <v-col style="max-width: 13px"></v-col>
-                  <v-col align-self="end" style="max-width: 120px">
-                    <v-select
-                        :items="findBy"
-                        :hint="`Find By`"
-                        persistent-hint
-                        label="Find By"
-                        solo
-                        dense
-                    ></v-select>
-                  </v-col>
-                  <v-col style="max-width: 20px">
-                  </v-col>
-                  <v-col style="max-width: 220px">
-                    <v-text-field
-                        label="Finder"
-                        placeholder="Type first letters to find"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
+            <v-row no-gutters>
+              <v-col style="max-width: 13px"></v-col>
+              <v-col align-self="end" style="max-width: 120px">
+                <v-select
+                    :items="findBy"
+                    :hint="`Find By`"
+                    persistent-hint
+                    label="Find By"
+                    solo
+                    dense
+                ></v-select>
+              </v-col>
+              <v-col style="max-width: 20px">
+              </v-col>
+              <v-col style="max-width: 220px">
+                <v-text-field
+                    label="Finder"
+                    placeholder="Type first letters to find"
+                ></v-text-field>
+              </v-col>
+            </v-row>
           </v-row>
         </v-container>
       </v-card>
     </v-container>
-  </div>
   </main>
 </template>
 
@@ -117,7 +115,6 @@ export default {
   },
   computed: {
     ...mapState({
-      componentKey: state => state.data.componentKey,
       dialogs: state => state.data.dialogs,
       player: state => state.data.player,
       sortParams: state => state.data.sortParams,
@@ -128,8 +125,12 @@ export default {
   },
   methods: {
     async deleteChosen(id) {
-      await this.$store.dispatch('deletePlayer',
-          {id: id})
+      let chosenPlayer = this.players.find(p => p.id === id)
+      let response = confirm(`Are You sure you want to delete ${chosenPlayer.playerName}`)
+      if (response) {
+        await this.$store.dispatch('deletePlayer',
+            {id: id})
+      }
     },
     editPlayer(id) {
       if (id !== null) {
@@ -137,7 +138,7 @@ export default {
         this.$route.params.id = id
         this.dialogs.dialogEdit = true
       }
-    }
+    },
   },
 }
 </script>

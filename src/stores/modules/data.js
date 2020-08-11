@@ -1,12 +1,8 @@
-import players from "@/stores/modules/players";
-
 export default {
     state: {
         token: "",
         username: "",
         loggedUsername: "",
-
-        componentKey: 0,
 
         dialogs: {
             dialogAdd: false,

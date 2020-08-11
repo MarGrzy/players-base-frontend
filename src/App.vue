@@ -8,7 +8,6 @@
 <script>
 
 import Header from "@/components/homepage/Header";
-import PlayersTable from "@/components/content/PlayersTable";
 
 export default {
   name: 'app',
