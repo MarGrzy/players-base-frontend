@@ -47,6 +47,7 @@ export default {
   name: "AddPlayer",
   computed: {
     ...mapState({
+      dialogs: state => state.data.dialogs,
       newPlayer: state => state.data.newPlayer,
       teams: state => state.data.teams,
       positions: state => state.data.positions,
@@ -60,10 +61,12 @@ export default {
           position: this.newPlayer.position,
           team: this.newPlayer.team
         })
-      window.history.length > 1 ? this.$router.go(-1) : await this.$router.push('/')
+      this.dialogs.dialogAdd = false;
+      this.$router.go(-1);
     },
     close() {
-      window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
+      this.dialogs.dialogAdd = false;
+      this.$router.go(-1);
     }
   },
 }

@@ -1,7 +1,22 @@
 <template>
+  <main>
   <div>
     <v-container fluid>
       <v-card rounded>
+        <v-dialog
+            v-model="dialogs.dialogAdd"
+            persistent
+            max-width="400px"
+        >
+          <AddPlayer/>
+        </v-dialog>
+        <v-dialog
+            v-model="dialogs.dialogEdit"
+            persistent
+            max-width="400px"
+        >
+          <EditPlayer/>
+        </v-dialog>
         <v-simple-table fixed-header>
           <template v-slot:default>
             <thead>
@@ -12,8 +27,8 @@
               <th class="text-center">Actions</th>
             </tr>
             </thead>
-            <tbody>
-            <tr v-for="player in players" :key="player.playerName">
+            <tbody :key="componentKey">
+            <tr v-for="player in players" :key="player.id">
               <td>{{ player.playerName }}</td>
               <td>{{ player.position }}</td>
               <td>{{ player.team.teamName }}</td>
@@ -21,7 +36,7 @@
                 <v-btn
                     icon
                     class="mx-0"
-                    :to="{name: 'edit-player', params: {id: player.id}}"
+                    @click="editPlayer(player.id)"
                 >
                   <v-icon color="teal">mdi-account-edit-outline</v-icon>
                 </v-btn>
@@ -43,6 +58,7 @@
               <v-btn
                   color="primary"
                   :to="{name: 'add-player'}"
+                  @click="dialogs.dialogAdd = true"
               >
                 Add Player
               </v-btn>
@@ -52,7 +68,6 @@
                   <v-col align-self="end" style="max-width: 120px">
                     <v-select
                         :items="findBy"
-                        item-text="${Object.keys(findBy)}"
                         :hint="`Find By`"
                         persistent-hint
                         label="Find By"
@@ -74,14 +89,18 @@
       </v-card>
     </v-container>
   </div>
+  </main>
 </template>
 
 
 <script>
 import {mapState} from "vuex";
+import AddPlayer from "@/components/content/actionWindows/AddPlayer";
+import EditPlayer from "@/components/content/actionWindows/EditPlayer";
 
 export default {
   name: "PlayersTable",
+  components: {EditPlayer, AddPlayer},
   mounted() {
     if (this.player && this.sortParams) {
       this.$store.dispatch("getPlayers",
@@ -98,6 +117,8 @@ export default {
   },
   computed: {
     ...mapState({
+      componentKey: state => state.data.componentKey,
+      dialogs: state => state.data.dialogs,
       player: state => state.data.player,
       sortParams: state => state.data.sortParams,
       headers: state => state.data.headers,
@@ -109,6 +130,13 @@ export default {
     async deleteChosen(id) {
       await this.$store.dispatch('deletePlayer',
           {id: id})
+    },
+    editPlayer(id) {
+      if (id !== null) {
+        this.$router.push('/player/edit')
+        this.$route.params.id = id
+        this.dialogs.dialogEdit = true
+      }
     }
   },
 }

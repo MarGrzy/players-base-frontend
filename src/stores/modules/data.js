@@ -1,8 +1,17 @@
+import players from "@/stores/modules/players";
+
 export default {
     state: {
         token: "",
         username: "",
         loggedUsername: "",
+
+        componentKey: 0,
+
+        dialogs: {
+            dialogAdd: false,
+            dialogEdit: false,
+        },
 
         players: [],
         player: {
@@ -78,6 +87,8 @@ export default {
         LOAD_PLAYERS(state, players) {
             state.players = players
         },
-    },
+    }
+    ,
     actions: {}
-};
+}
+;

@@ -19,6 +19,7 @@
                 ></v-select>
               </v-flex>
               <v-flex sm12 md12>
+                <template v-if="player.team">
                 <v-select
                     :items="teams"
                     item-text="teamName"
@@ -26,6 +27,7 @@
                     v-model="player.team.id"
                     label="Team"
                 ></v-select>
+                </template>
               </v-flex>
             </v-col>
           </v-layout>
@@ -44,15 +46,16 @@
 import {mapState} from "vuex";
 
 export default {
-name: "EditPlayer",
+  name: "EditPlayer",
   computed: {
     ...mapState({
+      dialogs: state => state.data.dialogs,
       players: state => state.data.players,
       teams: state => state.data.teams,
       positions: state => state.data.positions,
     }),
     player() {
-      return this.players.find(p => p.id === this.$route.params.id) || {};
+        return this.players.find(p => p.id === this.$route.params.id) || {};
     }
   },
   methods: {
@@ -63,10 +66,12 @@ name: "EditPlayer",
         position: this.player.position,
         team: this.player.team
       })
-      window.history.length > 1 ? this.$router.go(-1) : await this.$router.push('/')
+      this.dialogs.dialogEdit = false;
+      this.$router.go(-1)
     },
     close() {
-      window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
+      this.$router.go(-1)
+      this.dialogs.dialogEdit = false;
     }
   },
 }

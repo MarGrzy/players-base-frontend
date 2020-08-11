@@ -18,7 +18,7 @@
           label="Light/Dark Theme"
       ></v-switch>
     </v-app-bar>
-    <v-content>
+    <v-main>
       <div v-if="loggedUsername">
         <v-toolbar class="elevation-0"
                    dense>
@@ -51,7 +51,7 @@
           </v-tab-item>
         </v-tabs-items>
       </div>
-    </v-content>
+    </v-main>
   </div>
 </template>
 
