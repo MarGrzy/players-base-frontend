@@ -30,18 +30,21 @@ export default {
             try {
                 await api()
                     .request(config);
+                let newPlayer = JSON.parse(config.data);
+                commit('ADD_PLAYER', newPlayer);
             } catch (error) {
                 return {error}
             }
         },
-        async deletePlayer({commit}, {id}) {
+        async deletePlayer({commit}, {player}) {
             const config = {
-                url: 'player/' + id,
+                url: 'player/' + player.id,
                 method: 'delete',
             }
             try {
                 await api()
                     .request(config);
+                commit('ERASE_PLAYER', player)
             } catch (error) {
                 return {error}
             }

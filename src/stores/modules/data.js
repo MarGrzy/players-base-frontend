@@ -81,10 +81,20 @@ export default {
         },
         //PLAYERS
         LOAD_PLAYERS(state, players) {
-            state.players = players
+            state.players = players;
         },
-    }
-    ,
+        ADD_PLAYER(state, newPlayer) {
+            if (state.players.find(p => p.id === newPlayer.id)) {
+                newPlayer.id++
+            }
+            let newPlayerTeam = state.teams.find(t => t.id === newPlayer.team.id)
+            newPlayer.team.teamName = newPlayerTeam.teamName
+            state.players.push(newPlayer);
+        },
+        ERASE_PLAYER(state, playerToRemove) {
+            const idx = state.players.indexOf(playerToRemove);
+            state.players.splice(idx, 1);
+        }
+    },
     actions: {}
-}
-;
+};

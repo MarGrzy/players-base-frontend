@@ -16,7 +16,8 @@
         >
           <EditPlayer/>
         </v-dialog>
-        <v-simple-table fixed-header>
+        <v-simple-table
+            fixed-header>
           <template v-slot:default>
             <thead>
             <tr>
@@ -27,7 +28,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="player in players" :key="player.id">
+            <tr
+                v-for="player in players"
+                :key="player.id"
+                ref="table"
+            >
               <td>{{ player.playerName }}</td>
               <td>{{ player.position }}</td>
               <td>{{ player.team.teamName }}</td>
@@ -42,7 +47,7 @@
                 <v-btn
                     icon
                     class="mx-0"
-                    @click="deleteChosen(player.id)"
+                    @click="deleteChosen(player)"
                 >
                   <v-icon color="red darken-3">mdi-trash-can-outline</v-icon>
                 </v-btn>
@@ -124,12 +129,12 @@ export default {
     }),
   },
   methods: {
-    async deleteChosen(id) {
-      let chosenPlayer = this.players.find(p => p.id === id)
-      let response = confirm(`Are You sure you want to delete ${chosenPlayer.playerName}`)
+    async deleteChosen(player) {
+      let response = confirm(`Are You sure you want to delete
+      \n\n \t\t ${player.playerName}`)
       if (response) {
         await this.$store.dispatch('deletePlayer',
-            {id: id})
+            {player: player})
       }
     },
     editPlayer(id) {
